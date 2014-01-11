@@ -1,6 +1,6 @@
 package at.technikum.wien.bif12.dbs.verwaltung.entities;
 
-public class Student {
+public class Lektor {
 
 	private String firstname;
 	private String lastname;
@@ -8,9 +8,8 @@ public class Student {
 	private String zip;
 	private String telefon;
 	private String email;
-	private String course_of_studies_name;
-	private long studentnr;
 	private String token;
+	private long salary_class_id;
 
 	public String getFirstname() {
 		return firstname;
@@ -60,28 +59,20 @@ public class Student {
 		this.email = email;
 	}
 
-	public String getCourse_of_studies_name() {
-		return course_of_studies_name;
-	}
-
-	public void setCourse_of_studies_name(String course_of_studies_name) {
-		this.course_of_studies_name = course_of_studies_name;
-	}
-
-	public long getStudentnr() {
-		return studentnr;
-	}
-
-	public void setStudentnr(long studentnr) {
-		this.studentnr = studentnr;
-	}
-
 	public String getToken() {
 		return token;
 	}
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public long getSalary_class_id() {
+		return salary_class_id;
+	}
+
+	public void setSalary_class_id(long salary_class_id) {
+		this.salary_class_id = salary_class_id;
 	}
 
 }
