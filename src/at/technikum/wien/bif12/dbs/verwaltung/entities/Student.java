@@ -9,7 +9,9 @@ public class Student {
 	private String telefon;
 	private String email;
 	private String course_of_studies_name;
+	// TODO MK - was ist die studentnr und wozu brauchen wir die?
 	private long studentnr;
+
 	private String token;
 
 	public String getFirstname() {

@@ -14,7 +14,7 @@ import at.technikum.wien.bif12.dbs.verwaltung.entities.Zeugnis;
 
 public interface DatabaseHandler {
 
-	public long addLektor(Lektor l);
+	public boolean addLektor(Lektor l);
 
 	public boolean addStudent(Student s);
 
@@ -40,5 +40,9 @@ public interface DatabaseHandler {
 	public Course ladeFreifacher();
 
 	public boolean assignStudentToCourse(long studentId, long courseId);
+
+	public List<String> ladeStudiengaenge();
+
+	public List<String> ladeGehaltsklassen();
 
 }

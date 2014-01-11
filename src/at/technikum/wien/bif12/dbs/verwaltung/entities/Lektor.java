@@ -9,7 +9,7 @@ public class Lektor {
 	private String telefon;
 	private String email;
 	private String token;
-	private long salary_class_id;
+	private String gehaltsklasse;
 
 	public String getFirstname() {
 		return firstname;
@@ -67,12 +67,12 @@ public class Lektor {
 		this.token = token;
 	}
 
-	public long getSalary_class_id() {
-		return salary_class_id;
+	public String getGehaltsklasse() {
+		return gehaltsklasse;
 	}
 
-	public void setSalary_class_id(long salary_class_id) {
-		this.salary_class_id = salary_class_id;
+	public void setGehaltsklasse(String gehaltsklasse) {
+		this.gehaltsklasse = gehaltsklasse;
 	}
 
 }
