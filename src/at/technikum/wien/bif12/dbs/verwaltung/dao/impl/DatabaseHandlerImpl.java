@@ -340,7 +340,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 	}
 
 	@Override
-	public Course ladeFreifacher() {
+	public List<Course> ladeFreifacher(long semesterId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

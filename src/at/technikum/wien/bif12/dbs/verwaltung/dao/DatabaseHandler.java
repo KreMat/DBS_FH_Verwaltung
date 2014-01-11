@@ -37,7 +37,7 @@ public interface DatabaseHandler {
 
 	public Anwesenheitsliste ladeAnwesenheitsliste(long courseId);
 
-	public Course ladeFreifacher();
+	public List<Course> ladeFreifacher(long semesterId);
 
 	public boolean assignStudentToCourse(long studentId, long courseId);
 
