@@ -41,4 +41,8 @@ public interface DatabaseHandler {
 
 	public boolean assignStudentToCourse(long studentId, long courseId);
 
+	public List<String> ladeStudiengaenge();
+
+	public List<String> ladeGehaltsklassen();
+
 }
