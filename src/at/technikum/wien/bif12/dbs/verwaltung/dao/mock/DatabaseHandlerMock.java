@@ -6,6 +6,7 @@ import java.util.List;
 import at.technikum.wien.bif12.dbs.verwaltung.dao.DatabaseHandler;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Anwesenheitsliste;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Course;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.GradedStudent;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Lektor;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Lesson;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Semester;
@@ -135,6 +136,12 @@ public class DatabaseHandlerMock implements DatabaseHandler {
 	@Override
 	public List<Template> ladeAlleTemplate() {
 		List<Template> list = new ArrayList<Template>();
+		return list;
+	}
+
+	@Override
+	public List<GradedStudent> ladeStudenten(long courseId) {
+		List<GradedStudent> list = new ArrayList<GradedStudent>();
 		return list;
 	}
 

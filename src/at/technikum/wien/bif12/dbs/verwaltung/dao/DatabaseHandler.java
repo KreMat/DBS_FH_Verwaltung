@@ -4,6 +4,7 @@ import java.util.List;
 
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Anwesenheitsliste;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Course;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.GradedStudent;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Lektor;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Lesson;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Semester;
@@ -50,5 +51,7 @@ public interface DatabaseHandler {
 	public List<Semester> ladeAlleSemester();
 
 	public List<Template> ladeAlleTemplate();
+
+	public List<GradedStudent> ladeStudenten(long courseId);
 
 }

@@ -11,6 +11,7 @@ import java.util.List;
 import at.technikum.wien.bif12.dbs.verwaltung.dao.DatabaseHandler;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Anwesenheitsliste;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Course;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.GradedStudent;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Lektor;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Lesson;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Semester;
@@ -209,10 +210,10 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 	@Override
 	public boolean addCourse(Course c) {
 		String CREATE_COURSE = "{call usp_create_course(?,?,?,?,?)}";
-		
+
 		try {
 			CallableStatement cs = con.prepareCall(CREATE_COURSE);
-			
+
 			cs.setLong(1, c.getCourseOfStudiesId());
 			cs.setLong(2, c.getCourseTemplateId());
 			cs.setLong(3, c.getSemesterId());
@@ -321,11 +322,11 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 	public Zeugnis ladeZeugnis(long studenId, String semesterToken) {
 		String LADE_ZEUGNIS = "SELECT * FROM uv_create_certificate WHERE student_id = ? AND semester_token = ?;";
 		Zeugnis z = new Zeugnis();
-		
+
 		try {
 			PreparedStatement ladeZeugnis = con.prepareStatement(LADE_ZEUGNIS);
 			ladeZeugnis.setLong(1, studenId);
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -412,6 +413,12 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public List<Template> ladeAlleTemplate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<GradedStudent> ladeStudenten(long courseId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
