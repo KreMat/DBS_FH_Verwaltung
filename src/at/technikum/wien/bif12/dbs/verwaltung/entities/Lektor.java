@@ -75,4 +75,9 @@ public class Lektor extends AbstractDatabaseObject {
 		this.gehaltsklasse = gehaltsklasse;
 	}
 
+	@Override
+	public String toString() {
+		return firstname + " " + lastname;
+	}
+
 }

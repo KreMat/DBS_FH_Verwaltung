@@ -128,14 +128,14 @@ public class DatabaseHandlerMock implements DatabaseHandler {
 
 	@Override
 	public List<Semester> ladeAlleSemester() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Semester> list = new ArrayList<Semester>();
+		return list;
 	}
 
 	@Override
 	public List<Template> ladeAlleTemplate() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Template> list = new ArrayList<Template>();
+		return list;
 	}
 
 }
