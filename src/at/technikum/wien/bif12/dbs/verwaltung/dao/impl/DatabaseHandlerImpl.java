@@ -482,9 +482,8 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 		String LADE_SEMESTER = "SELECT * FROM tb_semester;";
 		List<Semester> s = new ArrayList<Semester>();
 
-		PreparedStatement ladeSemester;
 		try {
-			ladeSemester = con.prepareStatement(LADE_SEMESTER);
+			PreparedStatement ladeSemester = con.prepareStatement(LADE_SEMESTER);
 
 			ResultSet rs = ladeSemester.executeQuery();
 
@@ -510,8 +509,37 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public List<Template> ladeAlleTemplate() {
-		// TODO Auto-generated method stub
-		return null;
+		String LADE_TEMPLATES = "SELECT * FROM tb_course_template;";
+		List<Template> t = new ArrayList<Template>();
+		
+		PreparedStatement ladeTemplates;
+		try {
+			ladeTemplates = con.prepareStatement(LADE_TEMPLATES);
+			ResultSet rs = ladeTemplates.executeQuery();
+			
+			while(rs.next()) {
+				Template te = new Template();
+				
+				te.setId(rs.getLong("id"));
+				te.setCourseOfStudiesId(rs.getLong("tb_course_of_studies_id"));
+				te.setSemester(rs.getLong("semester"));
+				te.setName(rs.getString("name"));
+				te.setToken(rs.getString("token"));
+				te.setParticipants(rs.getLong("participants"));
+				te.setEcts(rs.getDouble("ects"));
+				te.setSws(rs.getDouble("sPPW"));
+				
+				t.add(te);
+			}
+			
+			return t;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Failed to load templates!");
+			return null;
+		}
+
 	}
 
 }
