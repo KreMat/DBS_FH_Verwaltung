@@ -45,4 +45,6 @@ public interface DatabaseHandler {
 
 	public List<String> ladeGehaltsklassen();
 
+	List<Lektor> ladeAlleLektoren();
+
 }
