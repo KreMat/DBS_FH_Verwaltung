@@ -88,7 +88,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			cs.setString(6, s.getEmail());
 
 			// TODO THOMAS -> FIXME
-
+			cs.setLong(7, s.getStudiengangId());
 			// cs.setString(7, s.getCourse_of_studies_name());
 			cs.setLong(8, s.getStudentnr());
 			cs.setString(9, s.getToken());
@@ -208,6 +208,31 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public boolean addCourse(Course c) {
+		String CREATE_COURSE = "{call usp_create_course(?,?,?,?,?)}";
+		
+		try {
+			CallableStatement cs = con.prepareCall(CREATE_COURSE);
+			
+			cs.setLong(1, c.getCourseOfStudiesId());
+			cs.setLong(2, c.getCourseTemplateId());
+			cs.setLong(3, c.getSemesterId());
+			cs.setLong(4, c.getLektorId());
+
+			cs.registerOutParameter(5, java.sql.Types.INTEGER);
+
+			cs.executeUpdate();
+
+			int erg = cs.getInt(5);
+
+			if (erg == 0)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Failed to create course!");
+		}
 		// String ASSIGN_COURSE_TO_SEMESTER =
 		// "{call usp_assign_semester(?,?,?)}";
 		// try {
@@ -295,6 +320,16 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 	@Override
 	public Zeugnis ladeZeugnis(long studenId, String semesterToken) {
 		String LADE_ZEUGNIS = "SELECT * FROM uv_create_certificate WHERE student_id = ? AND semester_token = ?;";
+		Zeugnis z = new Zeugnis();
+		
+		try {
+			PreparedStatement ladeZeugnis = con.prepareStatement(LADE_ZEUGNIS);
+			ladeZeugnis.setLong(1, studenId);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
