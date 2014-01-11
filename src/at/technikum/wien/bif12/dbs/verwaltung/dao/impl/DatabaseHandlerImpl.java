@@ -86,7 +86,10 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			cs.setString(4, s.getZip());
 			cs.setString(5, s.getTelefon());
 			cs.setString(6, s.getEmail());
-			cs.setString(7, s.getCourse_of_studies_name());
+
+			// TODO THOMAS -> FIXME
+
+			// cs.setString(7, s.getCourse_of_studies_name());
 			cs.setLong(8, s.getStudentnr());
 			cs.setString(9, s.getToken());
 
@@ -291,7 +294,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public Zeugnis ladeZeugnis(long studenId, String semesterToken) {
-		String LADE_ZEUGNIS ="SELECT * FROM uv_create_certificate WHERE student_id = ? AND semester_token = ?;";
+		String LADE_ZEUGNIS = "SELECT * FROM uv_create_certificate WHERE student_id = ? AND semester_token = ?;";
 		return null;
 	}
 
@@ -349,7 +352,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 	}
 
 	@Override
-	public List<String> ladeStudiengaenge() {
+	public List<Studiengang> ladeStudiengaenge() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -96,12 +96,11 @@ public class DatabaseHandlerMock implements DatabaseHandler {
 	}
 
 	@Override
-	public List<String> ladeStudiengaenge() {
-		List<String> list = new ArrayList<String>();
-		list.add("Bachelor Informatik");
-		list.add("Bachelor Wirtschaftsinformatik");
-		list.add("Master Wirtschaftsinformatik");
-		list.add("Master Software Engineering");
+	public List<Studiengang> ladeStudiengaenge() {
+		List<Studiengang> list = new ArrayList<Studiengang>();
+		list.add(new Studiengang(1, "Informatik", 1, 100, "Bachelor"));
+		list.add(new Studiengang(1, "Wirtschaftsinformatik", 1, 100, "Bachelor"));
+		list.add(new Studiengang(1, "Software Engineering", 1, 100, "Master"));
 		return list;
 	}
 

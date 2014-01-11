@@ -1,6 +1,6 @@
 package at.technikum.wien.bif12.dbs.verwaltung.entities;
 
-public class Studiengang {
+public class Studiengang extends AbstractDatabaseObject {
 
 	private long lecturer_id;
 	private String name;
@@ -60,6 +60,11 @@ public class Studiengang {
 
 	public void setDegree(String degree) {
 		this.degree = degree;
+	}
+
+	@Override
+	public String toString() {
+		return name + " " + degree;
 	}
 
 }

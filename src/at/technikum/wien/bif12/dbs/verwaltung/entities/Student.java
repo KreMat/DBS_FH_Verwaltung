@@ -8,8 +8,7 @@ public class Student {
 	private String zip;
 	private String telefon;
 	private String email;
-	private String course_of_studies_name;
-	// TODO MK - was ist die studentnr und wozu brauchen wir die?
+	private long studiengangId;
 	private long studentnr;
 
 	private String token;
@@ -62,14 +61,6 @@ public class Student {
 		this.email = email;
 	}
 
-	public String getCourse_of_studies_name() {
-		return course_of_studies_name;
-	}
-
-	public void setCourse_of_studies_name(String course_of_studies_name) {
-		this.course_of_studies_name = course_of_studies_name;
-	}
-
 	public long getStudentnr() {
 		return studentnr;
 	}
@@ -84,6 +75,14 @@ public class Student {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public long getStudiengangId() {
+		return studiengangId;
+	}
+
+	public void setStudiengangId(long studiengangId) {
+		this.studiengangId = studiengangId;
 	}
 
 }
