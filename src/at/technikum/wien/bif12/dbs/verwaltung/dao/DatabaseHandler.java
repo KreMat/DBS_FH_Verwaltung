@@ -47,4 +47,8 @@ public interface DatabaseHandler {
 
 	public List<Lektor> ladeAlleLektoren();
 
+	public List<Semester> ladeAlleSemester();
+
+	public List<Template> ladeAlleTemplate();
+
 }

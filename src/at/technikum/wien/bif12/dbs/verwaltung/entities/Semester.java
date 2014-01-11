@@ -1,6 +1,6 @@
 package at.technikum.wien.bif12.dbs.verwaltung.entities;
 
-public class Semester {
+public class Semester extends AbstractDatabaseObject {
 
 	private String token;
 	private String start_day;

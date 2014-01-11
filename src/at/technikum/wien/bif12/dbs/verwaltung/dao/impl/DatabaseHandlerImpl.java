@@ -369,4 +369,16 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 		return null;
 	}
 
+	@Override
+	public List<Semester> ladeAlleSemester() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Template> ladeAlleTemplate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

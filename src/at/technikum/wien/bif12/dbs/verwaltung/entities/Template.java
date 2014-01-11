@@ -1,6 +1,6 @@
 package at.technikum.wien.bif12.dbs.verwaltung.entities;
 
-public class Template {
+public class Template extends AbstractDatabaseObject {
 
 	private long courseOfStudiesId;
 	private long semester;
