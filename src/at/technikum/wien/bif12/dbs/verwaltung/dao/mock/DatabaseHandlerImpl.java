@@ -54,6 +54,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			cs.setString(6, l.getEmail());
 			cs.setString(7, l.getToken());
 			cs.setString(8, l.getGehaltsklasse());
+<<<<<<< HEAD
 
 			cs.registerOutParameter(9, java.sql.Types.INTEGER);
 
@@ -192,6 +193,139 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public List<Lektor> ladeAlleLektoren() {
+=======
+			
+			cs.registerOutParameter(9, java.sql.Types.INTEGER);
+			
+			cs.executeUpdate();
+			int erg = cs.getInt(9);
+			
+			if(erg==0)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Failed to create Lector!");
+			return false;
+		}
+	}
+
+	@Override
+	public boolean addStudent(Student s) {
+		String CREATE_STUDENT = "{call usp_create_student(?,?,?,?,?,?,?,?,?,?)}";
+		try {
+			CallableStatement cs = con.prepareCall(CREATE_STUDENT);
+
+			cs.setString(1, s.getFirstname());
+			cs.setString(2, s.getLastname());
+			cs.setString(3, s.getAdress());
+			cs.setString(4, s.getZip());
+			cs.setString(5, s.getTelefon());
+			cs.setString(6, s.getEmail());
+			cs.setString(7, s.getCourse_of_studies_name());
+			cs.setLong(8, s.getStudentnr());
+			cs.setString(9, s.getToken());
+			
+			cs.registerOutParameter(10, java.sql.Types.INTEGER);
+			
+			cs.executeUpdate();
+			
+			int erg = cs.getInt(10);
+			
+			if(erg==0)
+				return true;
+			else if(erg==-1)
+				return false;
+			else {
+				System.out.println("Sorry there are to many students for that course!");
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Failed to create student!");
+			return false;
+		}
+	}
+
+	@Override
+	public boolean addStudiengang(Studiengang s) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addTemplate(Template t) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addSemester(Semester s) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean assignCourseToSemester(Course c, long semesterId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addLesson(Lesson l) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean registerGrade(long studentId, long courseId, int grade) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Zeugnis ladeZeugnis(long studenId, String semesterToken) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Lesson> ladeStundenplan(long studentId, String dayStart,
+			String dayEnd) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Anwesenheitsliste ladeAnwesenheitsliste(long courseId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Course ladeFreifacher() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean assignStudentToCourse(long studentId, long courseId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<String> ladeStudiengaenge() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> ladeGehaltsklassen() {
+>>>>>>> branch 'master' of https://github.com/KreMat/DBS_FH_Verwaltung.git
 		// TODO Auto-generated method stub
 		return null;
 	}

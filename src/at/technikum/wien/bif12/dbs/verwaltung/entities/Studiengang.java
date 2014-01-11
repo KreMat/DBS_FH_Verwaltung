@@ -5,11 +5,11 @@ public class Studiengang {
 	private long lecturer_id;
 	private String name;
 	private String nr;
-	private long participants;
+	private String participants;
 	private String degree;
 
 	public Studiengang(long lecturer_id, String name, String nr,
-			long participants, String degree) {
+			String participants, String degree) {
 		super();
 		this.lecturer_id = lecturer_id;
 		this.name = name;
@@ -42,11 +42,11 @@ public class Studiengang {
 		this.nr = nr;
 	}
 
-	public long getParticipants() {
+	public String getParticipants() {
 		return participants;
 	}
 
-	public void setParticipants(long participants) {
+	public void setParticipants(String participants) {
 		this.participants = participants;
 	}
 
