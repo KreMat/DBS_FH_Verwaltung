@@ -24,7 +24,7 @@ public interface DatabaseHandler {
 
 	public boolean addSemester(Semester s);
 
-	public boolean assignCourseToSemester(Course c, long semesterId);
+	public boolean addCourse(Course c);
 
 	public boolean addLesson(Lesson l);
 
