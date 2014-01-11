@@ -189,4 +189,10 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 		return null;
 	}
 
+	@Override
+	public List<Lektor> ladeAlleLektoren() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
