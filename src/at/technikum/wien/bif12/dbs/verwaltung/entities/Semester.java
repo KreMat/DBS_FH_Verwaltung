@@ -6,6 +6,10 @@ public class Semester {
 	private String start_day;
 	private String end_day;
 
+	public Semester() {
+
+	}
+
 	public Semester(String token, String start_day, String end_day) {
 		super();
 		this.token = token;

@@ -7,8 +7,13 @@ public class Studiengang {
 	private long nr;
 	private long participants;
 	private String degree;
-	
-	public Studiengang(long lecturer_id, String name, long nr,long participants, String degree) {
+
+	public Studiengang() {
+
+	}
+
+	public Studiengang(long lecturer_id, String name, long nr,
+			long participants, String degree) {
 		super();
 		this.lecturer_id = lecturer_id;
 		this.name = name;

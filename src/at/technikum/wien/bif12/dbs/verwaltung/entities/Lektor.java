@@ -1,6 +1,6 @@
 package at.technikum.wien.bif12.dbs.verwaltung.entities;
 
-public class Lektor {
+public class Lektor extends AbstractDatabaseObject {
 
 	private String firstname;
 	private String lastname;

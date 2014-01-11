@@ -1,4 +1,4 @@
-package at.technikum.wien.bif12.dbs.verwaltung.dao.mock;
+package at.technikum.wien.bif12.dbs.verwaltung.dao.impl;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;

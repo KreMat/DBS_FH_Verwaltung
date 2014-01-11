@@ -2,20 +2,11 @@ package at.technikum.wien.bif12.dbs.verwaltung.entities;
 
 public class Template {
 
-	private long courseOfStudiesId;
+	private String studiengang;
 	private String name;
 	private String token;
 	private long participants;
 	private double ects;
-	private double sppw;
-
-	public long getCourseOfStudiesId() {
-		return courseOfStudiesId;
-	}
-
-	public void setCourseOfStudiesId(long courseOfStudiesId) {
-		this.courseOfStudiesId = courseOfStudiesId;
-	}
 
 	public String getName() {
 		return name;
@@ -49,12 +40,12 @@ public class Template {
 		this.ects = ects;
 	}
 
-	public double getSppw() {
-		return sppw;
+	public void setStudiengang(String studiengang) {
+		this.studiengang = studiengang;
 	}
 
-	public void setSppw(double sppw) {
-		this.sppw = sppw;
+	public String getStudiengang() {
+		return studiengang;
 	}
 
 }
