@@ -17,9 +17,9 @@ import at.technikum.wien.bif12.dbs.verwaltung.entities.Zeugnis;
 public class DatabaseHandlerMock implements DatabaseHandler {
 
 	@Override
-	public long addLektor(Lektor l) {
+	public boolean addLektor(Lektor l) {
 		// TODO Auto-generated method stub
-		return 0;
+		return false;
 	}
 
 	@Override
@@ -110,6 +110,20 @@ public class DatabaseHandlerMock implements DatabaseHandler {
 		List<String> list = new ArrayList<String>();
 		list.add("A1");
 		list.add("A2");
+		return list;
+	}
+
+	@Override
+	public List<Lektor> ladeAlleLektoren() {
+		List<Lektor> list = new ArrayList<Lektor>();
+		Lektor l1 = new Lektor();
+		l1.setFirstname("Hans");
+		l1.setLastname("Mueller");
+		list.add(l1);
+		Lektor l2 = new Lektor();
+		l2.setFirstname("Hans2");
+		l2.setLastname("Mueller2");
+		list.add(l2);
 		return list;
 	}
 

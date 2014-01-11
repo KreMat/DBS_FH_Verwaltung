@@ -1,6 +1,6 @@
 package at.technikum.wien.bif12.dbs.verwaltung.entities;
 
-public class Lektor {
+public class Lektor extends AbstractDBObject {
 
 	private String firstname;
 	private String lastname;
@@ -73,6 +73,11 @@ public class Lektor {
 
 	public void setGehaltsklasse(String gehaltsklasse) {
 		this.gehaltsklasse = gehaltsklasse;
+	}
+
+	@Override
+	public String toString() {
+		return firstname + " " + lastname;
 	}
 
 }

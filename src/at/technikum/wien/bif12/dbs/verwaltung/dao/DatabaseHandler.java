@@ -14,7 +14,7 @@ import at.technikum.wien.bif12.dbs.verwaltung.entities.Zeugnis;
 
 public interface DatabaseHandler {
 
-	public long addLektor(Lektor l);
+	public boolean addLektor(Lektor l);
 
 	public boolean addStudent(Student s);
 
@@ -44,5 +44,7 @@ public interface DatabaseHandler {
 	public List<String> ladeStudiengaenge();
 
 	public List<String> ladeGehaltsklassen();
+
+	public List<Lektor> ladeAlleLektoren();
 
 }
