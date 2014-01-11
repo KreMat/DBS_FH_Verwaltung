@@ -1,9 +1,12 @@
 package at.technikum.wien.bif12.dbs.verwaltung.entities;
 
+import java.util.List;
+
 public class Course {
 	private long courseOfStudiesId;
 	private long courseTemplateId;
 	private long semesterId;
+	private List<Long> lekorIds;
 
 	public long getCourseOfStudiesId() {
 		return courseOfStudiesId;
@@ -28,5 +31,15 @@ public class Course {
 	public void setSemesterId(long semesterId) {
 		this.semesterId = semesterId;
 	}
+
+	public List<Long> getLekorIds() {
+		return lekorIds;
+	}
+
+	public void setLekorIds(List<Long> lekorIds) {
+		this.lekorIds = lekorIds;
+	}
+	
+	
 
 }

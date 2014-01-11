@@ -115,14 +115,64 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public boolean addStudiengang(Studiengang s) {
-		// TODO Auto-generated method stub
-		return false;
+		String CREATE_STUDIENGANG = "{call usp_create_course_of_studies(?,?,?,?,?,?)}";
+		try {
+			CallableStatement cs = con.prepareCall(CREATE_STUDIENGANG);
+
+			cs.setLong(1, s.getLecturer_id());
+			cs.setString(2, s.getName());
+			cs.setLong(3, s.getNr());
+			cs.setLong(4, s.getParticipants());
+			cs.setString(5, s.getDegree());
+
+			cs.registerOutParameter(6, java.sql.Types.INTEGER);
+
+			cs.executeUpdate();
+
+			int erg = cs.getInt(6);
+
+			if (erg == 0)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Failed to create course of studies!");
+			return false;
+		}
 	}
 
 	@Override
 	public boolean addTemplate(Template t) {
-		// TODO Auto-generated method stub
-		return false;
+		String CREATE_TEMPLATE = "{call usp_create_course_template(?,?,?,?,?,?,?,?)}";
+		try {
+			CallableStatement cs = con.prepareCall(CREATE_TEMPLATE);
+
+			cs.setLong(1, t.getCourseOfStudiesId());
+			cs.setLong(2, t.getSemester());
+			cs.setString(3, t.getName());
+			cs.setString(4, t.getToken());
+			cs.setLong(5, t.getParticipants());
+			cs.setDouble(6, t.getEcts());
+			cs.setDouble(7, t.getSws());
+
+			cs.registerOutParameter(8, java.sql.Types.INTEGER);
+
+			cs.executeUpdate();
+
+			int erg = cs.getInt(8);
+
+			if (erg == 0)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Failed to create template!");
+			return false;
+		}
 	}
 
 	@Override
@@ -239,7 +289,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public Zeugnis ladeZeugnis(long studenId, String semesterToken) {
-		// TODO Auto-generated method stub
+		String LADE_ZEUGNIS ="SELECT * FROM uv_create_certificate WHERE student_id = ? AND semester_token = ?;";
 		return null;
 	}
 
