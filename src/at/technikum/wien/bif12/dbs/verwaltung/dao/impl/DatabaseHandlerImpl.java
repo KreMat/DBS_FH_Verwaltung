@@ -6,11 +6,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import at.technikum.wien.bif12.dbs.verwaltung.dao.DatabaseHandler;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Anwesenheitsliste;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Course;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.Grade;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Lektor;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Lesson;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Semester;
@@ -209,10 +211,10 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 	@Override
 	public boolean addCourse(Course c) {
 		String CREATE_COURSE = "{call usp_create_course(?,?,?,?,?)}";
-		
+
 		try {
 			CallableStatement cs = con.prepareCall(CREATE_COURSE);
-			
+
 			cs.setLong(1, c.getCourseOfStudiesId());
 			cs.setLong(2, c.getCourseTemplateId());
 			cs.setLong(3, c.getSemesterId());
@@ -321,16 +323,35 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 	public Zeugnis ladeZeugnis(long studenId, String semesterToken) {
 		String LADE_ZEUGNIS = "SELECT * FROM uv_create_certificate WHERE student_id = ? AND semester_token = ?;";
 		Zeugnis z = new Zeugnis();
-		
+
 		try {
 			PreparedStatement ladeZeugnis = con.prepareStatement(LADE_ZEUGNIS);
 			ladeZeugnis.setLong(1, studenId);
-			
+			ladeZeugnis.setString(2, semesterToken);
+
+			ResultSet rs = ladeZeugnis.executeQuery();
+			while (rs.next()) {
+				z.setFirstname(rs.getString("firstname"));
+				z.setLastname(rs.getString("lastname"));
+				// Studiengang noch dazu
+
+				Grade g = new Grade();
+				g.setLehrveranstaltung(rs.getString("course_name"));
+				g.setGrade(rs.getInt("grade"));
+				g.setEcts(rs.getDouble("ects"));
+
+				z.getGrades().add(g);
+			}
+
+			return z;
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("Couldnt create certificate!");
+			return null;
 		}
-		return null;
+
 	}
 
 	@Override
@@ -382,14 +403,66 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public boolean assignStudentToCourse(long studentId, long courseId) {
-		// TODO Auto-generated method stub
-		return false;
+		String ASSIGN_STUDENT_TO_COURSE = "{call usp_register_optional_course(?,?,?)}";
+		try {
+			CallableStatement cs = con.prepareCall(ASSIGN_STUDENT_TO_COURSE);
+
+			cs.setLong(1, studentId);
+			cs.setLong(2, courseId);
+
+			cs.registerOutParameter(3, java.sql.Types.INTEGER);
+
+			cs.executeUpdate();
+
+			int erg = cs.getInt(3);
+
+			if (erg == 0)
+				return true;
+			else if (erg == -1)
+				return false;
+			else {
+				System.out
+						.println("Couldnt assign student to course, there are already to many!");
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Failed to assign student!");
+			return false;
+		}
 	}
 
 	@Override
 	public List<Studiengang> ladeStudiengaenge() {
-		// TODO Auto-generated method stub
-		return null;
+		String LADE_STUDIENGAENGE = "SELECT * FROM tb_course_of_studies;";
+		List<Studiengang> s = new ArrayList<Studiengang>();
+		try {
+			PreparedStatement ladeStudiengaenge = con
+					.prepareStatement(LADE_STUDIENGAENGE);
+
+			ResultSet rs = ladeStudiengaenge.executeQuery();
+
+			while (rs.next()) {
+				Studiengang st = new Studiengang();
+				st.setId(rs.getLong("id"));
+				st.setLecturer_id(rs.getLong("tb_lecturer_id"));
+				st.setName(rs.getString("name"));
+				st.setNr(rs.getLong("nr"));
+				st.setParticipants(rs.getLong("participants"));
+				st.setDegree(rs.getString("degree"));
+
+				s.add(st);
+			}
+
+			return s;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Failed to load studiengaenge!");
+			return null;
+		}
 	}
 
 	@Override
@@ -406,8 +479,33 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public List<Semester> ladeAlleSemester() {
-		// TODO Auto-generated method stub
-		return null;
+		String LADE_SEMESTER = "SELECT * FROM tb_semester;";
+		List<Semester> s = new ArrayList<Semester>();
+
+		PreparedStatement ladeSemester;
+		try {
+			ladeSemester = con.prepareStatement(LADE_SEMESTER);
+
+			ResultSet rs = ladeSemester.executeQuery();
+
+			while (rs.next()) {
+				Semester se = new Semester();
+				se.setId(rs.getLong("id"));
+				se.setToken(rs.getString("token"));
+				se.setStart_day(rs.getString("start_day"));
+				se.setEnd_day(rs.getString("end_day"));
+
+				s.add(se);
+			}
+
+			return s;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Failed to load semesters!");
+			return null;
+		}
+
 	}
 
 	@Override
