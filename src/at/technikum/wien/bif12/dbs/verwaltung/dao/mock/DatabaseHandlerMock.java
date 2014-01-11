@@ -1,5 +1,8 @@
 package at.technikum.wien.bif12.dbs.verwaltung.dao.mock;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
