@@ -47,7 +47,7 @@ public class DatabaseHandlerMock implements DatabaseHandler {
 	}
 
 	@Override
-	public boolean assignCourseToSemester(Course c, long semesterId) {
+	public boolean addCourse(Course c) {
 		// TODO Auto-generated method stub
 		return true;
 	}

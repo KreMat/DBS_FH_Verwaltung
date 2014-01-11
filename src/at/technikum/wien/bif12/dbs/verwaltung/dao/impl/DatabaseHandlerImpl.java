@@ -154,30 +154,32 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 	}
 
 	@Override
-	public boolean assignCourseToSemester(Course c, long semesterId) {
-		String ASSIGN_COURSE_TO_SEMESTER = "{call usp_assign_semester(?,?,?)}";
-		try {
-			CallableStatement cs = con.prepareCall(ASSIGN_COURSE_TO_SEMESTER);
-
-			cs.setLong(1, c.getCourseOfStudiesId());
-			cs.setLong(2, semesterId);
-
-			cs.registerOutParameter(3, java.sql.Types.INTEGER);
-
-			cs.executeUpdate();
-
-			int erg = cs.getInt(3);
-
-			if (erg == 0)
-				return true;
-			else
-				return false;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Failed to assign course to semester!");
-			return false;
-		}
+	public boolean addCourse(Course c) {
+		// String ASSIGN_COURSE_TO_SEMESTER =
+		// "{call usp_assign_semester(?,?,?)}";
+		// try {
+		// CallableStatement cs = con.prepareCall(ASSIGN_COURSE_TO_SEMESTER);
+		//
+		// cs.setLong(1, c.getCourseOfStudiesId());
+		// cs.setLong(2, semesterId);
+		//
+		// cs.registerOutParameter(3, java.sql.Types.INTEGER);
+		//
+		// cs.executeUpdate();
+		//
+		// int erg = cs.getInt(3);
+		//
+		// if (erg == 0)
+		// return true;
+		// else
+		// return false;
+		// } catch (SQLException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// System.out.println("Failed to assign course to semester!");
+		// return false;
+		// }
+		return true;
 	}
 
 	@Override
