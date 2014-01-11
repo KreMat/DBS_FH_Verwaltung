@@ -113,4 +113,18 @@ public class DatabaseHandlerMock implements DatabaseHandler {
 		return list;
 	}
 
+	@Override
+	public List<Lektor> ladeAlleLektoren() {
+		List<Lektor> list = new ArrayList<Lektor>();
+		Lektor l1 = new Lektor();
+		l1.setFirstname("Hans");
+		l1.setLastname("Mueller");
+		list.add(l1);
+		Lektor l2 = new Lektor();
+		l2.setFirstname("Hans2");
+		l2.setLastname("Mueller2");
+		list.add(l2);
+		return list;
+	}
+
 }
