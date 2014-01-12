@@ -6,8 +6,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import at.technikum.wien.bif12.dbs.verwaltung.dao.DatabaseHandler;
@@ -330,26 +332,26 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 	}
 
 	@Override
-	public List<NamedLesson> ladeStundenplan(long studentId, String dayStart,
-			String dayEnd) {
+	public List<NamedLesson> ladeStundenplan(long studentId, Date dayStart,
+			Date dayEnd) {
 		String LADE_STUNDENPLAN = "SELECT * FROM uv_create_schedule WHERE (start_time"
-				+ " >= TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS') AND end_time"
-				+ " <= TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS')) AND (student_id = ?)";
+				+ " >= ? AND end_time" + " <= ?) AND (student_id = ?)";
 		List<NamedLesson> nl = new ArrayList<NamedLesson>();
 
 		try {
 			PreparedStatement getStundenplan = con
 					.prepareStatement(LADE_STUNDENPLAN);
-			getStundenplan.setString(1, dayStart);
-			getStundenplan.setString(2, dayEnd);
+			getStundenplan.setTimestamp(1, new Timestamp(dayStart.getTime()));
+			getStundenplan.setTimestamp(2, new Timestamp(dayEnd.getTime()));
 			getStundenplan.setLong(3, studentId);
 
 			ResultSet rs = getStundenplan.executeQuery();
 
 			while (rs.next()) {
 				NamedLesson nal = new NamedLesson(rs.getString("course_name"),
-						rs.getString("room"), rs.getDate("start_time"),
-						rs.getDate("end_time"));
+						rs.getString("room"), new Date(rs.getTimestamp(
+								"start_time").getTime()), new Date(rs
+								.getTimestamp("end_time").getTime()));
 				nl.add(nal);
 			}
 

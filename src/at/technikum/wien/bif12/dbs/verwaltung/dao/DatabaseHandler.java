@@ -1,5 +1,6 @@
 package at.technikum.wien.bif12.dbs.verwaltung.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Anwesenheitsliste;
@@ -37,8 +38,8 @@ public interface DatabaseHandler {
 
 	public Zeugnis ladeZeugnis(long studentId, String semesterToken);
 
-	public List<NamedLesson> ladeStundenplan(long studentId, String dayStart,
-			String dayEnd);
+	public List<NamedLesson> ladeStundenplan(long studentId, Date dayStart,
+			Date dayEnd);
 
 	public Anwesenheitsliste ladeAnwesenheitsliste(long courseId);
 

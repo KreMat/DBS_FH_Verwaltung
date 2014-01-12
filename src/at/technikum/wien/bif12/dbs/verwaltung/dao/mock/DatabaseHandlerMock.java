@@ -1,7 +1,7 @@
 package at.technikum.wien.bif12.dbs.verwaltung.dao.mock;
 
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import at.technikum.wien.bif12.dbs.verwaltung.dao.DatabaseHandler;
@@ -85,15 +85,15 @@ public class DatabaseHandlerMock implements DatabaseHandler {
 	}
 
 	@Override
-	public List<NamedLesson> ladeStundenplan(long studentId, String dayStart,
-			String dayEnd) {
+	public List<NamedLesson> ladeStundenplan(long studentId, Date dayStart,
+			Date dayEnd) {
 		List<NamedLesson> list = new ArrayList<NamedLesson>();
-		list.add(new NamedLesson("Datenabanken", "A_1.04b", new Date(System
-				.currentTimeMillis()), new Date(System.currentTimeMillis())));
-		list.add(new NamedLesson("Datenabanken", "A_1.04b", new Date(System
-				.currentTimeMillis()), new Date(System.currentTimeMillis())));
-		list.add(new NamedLesson("Datenabanken", "A_1.04b", new Date(System
-				.currentTimeMillis()), new Date(System.currentTimeMillis())));
+		// list.add(new NamedLesson("Datenabanken", "A_1.04b", new Date(System
+		// .currentTimeMillis()), new Date(System.currentTimeMillis())));
+		// list.add(new NamedLesson("Datenabanken", "A_1.04b", new Date(System
+		// .currentTimeMillis()), new Date(System.currentTimeMillis())));
+		// list.add(new NamedLesson("Datenabanken", "A_1.04b", new Date(System
+		// .currentTimeMillis()), new Date(System.currentTimeMillis())));
 		return list;
 	}
 
