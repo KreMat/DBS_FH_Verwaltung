@@ -15,6 +15,9 @@ import at.technikum.wien.bif12.dbs.verwaltung.entities.Course;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.GradedStudent;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Lektor;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Lesson;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.NamedCourse;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.NamedLesson;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.Room;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Semester;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Student;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Studiengang;
@@ -338,7 +341,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 	}
 
 	@Override
-	public List<Lesson> ladeStundenplan(long studentId, String dayStart,
+	public List<NamedLesson> ladeStundenplan(long studentId, String dayStart,
 			String dayEnd) {
 		// TODO Auto-generated method stub
 		return null;
@@ -379,7 +382,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 	}
 
 	@Override
-	public List<Course> ladeFreifacher(long semesterId) {
+	public List<NamedCourse> ladeFreifacher(long semesterId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -499,6 +502,24 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public List<GradedStudent> ladeStudenten(long courseId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<NamedCourse> ladeAlleLvs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Room> ladeAlleRaeume() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Student> ladeAlleStudenten() {
 		// TODO Auto-generated method stub
 		return null;
 	}

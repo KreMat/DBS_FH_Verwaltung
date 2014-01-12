@@ -41,4 +41,9 @@ public class Semester extends AbstractDatabaseObject {
 		this.end_day = end_day;
 	}
 
+	@Override
+	public String toString() {
+		return token;
+	}
+
 }

@@ -13,6 +13,17 @@ public class Student extends AbstractDatabaseObject {
 
 	private String token;
 
+	public Student(String firstname, String lastname, int id) {
+		super();
+		setId(id);
+		this.firstname = firstname;
+		this.lastname = lastname;
+	}
+
+	public Student() {
+		super();
+	}
+
 	public String getFirstname() {
 		return firstname;
 	}
@@ -83,6 +94,11 @@ public class Student extends AbstractDatabaseObject {
 
 	public void setStudiengangId(long studiengangId) {
 		this.studiengangId = studiengangId;
+	}
+
+	@Override
+	public String toString() {
+		return firstname + " " + lastname;
 	}
 
 }

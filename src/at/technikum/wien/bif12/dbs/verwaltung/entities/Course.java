@@ -1,6 +1,6 @@
 package at.technikum.wien.bif12.dbs.verwaltung.entities;
 
-public class Course {
+public class Course extends AbstractDatabaseObject {
 	private long courseOfStudiesId;
 	private long courseTemplateId;
 	private long semesterId;

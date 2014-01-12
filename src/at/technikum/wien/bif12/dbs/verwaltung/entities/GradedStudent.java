@@ -4,6 +4,17 @@ public class GradedStudent extends Student {
 
 	private Integer grade;
 
+	public GradedStudent() {
+		super();
+	}
+
+	public GradedStudent(String firstname, String lastname, Integer grade) {
+		super();
+		setFirstname(firstname);
+		setLastname(lastname);
+		this.grade = grade;
+	}
+
 	public Integer getGrade() {
 		return grade;
 	}
