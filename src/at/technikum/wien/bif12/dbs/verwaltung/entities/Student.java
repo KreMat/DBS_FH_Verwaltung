@@ -1,7 +1,6 @@
 package at.technikum.wien.bif12.dbs.verwaltung.entities;
 
 public class Student extends AbstractDatabaseObject {
-	// TODO MK Studiengangid ersetzt durch studiengangName
 	private String firstname;
 	private String lastname;
 	private String adress;
