@@ -186,9 +186,9 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			CallableStatement cs = con.prepareCall(CREATE_SEMESTER);
 
 			cs.setString(1, s.getToken());
-			// TODO Thomas FIXME
-			// cs.setString(2, s.getStart_day());
-			// cs.setString(3, s.getEnd_day());
+			SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
+			cs.setString(2, SDF.format(s.getStartDay()));
+			cs.setString(3, SDF.format(s.getEndDay()));
 
 			cs.registerOutParameter(4, java.sql.Types.INTEGER);
 
@@ -563,9 +563,8 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 				Semester se = new Semester();
 				se.setId(rs.getLong("id"));
 				se.setToken(rs.getString("token"));
-				// TODO Thomas FIXME
-				// se.setStart_day(rs.getString("start_day"));
-				// se.setEnd_day(rs.getString("end_day"));
+				se.setStartDay(rs.getDate("start_day"));
+				se.setEndDay(rs.getDate("end_day"));
 
 				s.add(se);
 			}
