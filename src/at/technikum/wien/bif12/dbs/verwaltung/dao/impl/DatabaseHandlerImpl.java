@@ -44,6 +44,14 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			con = null;
+		}
+	}
+
+	@Override
+	public void finalize() {
+		if (con != null) {
+			closeConnection();
 		}
 	}
 
