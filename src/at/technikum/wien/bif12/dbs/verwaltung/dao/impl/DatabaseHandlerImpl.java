@@ -12,6 +12,7 @@ import java.util.List;
 import at.technikum.wien.bif12.dbs.verwaltung.dao.DatabaseHandler;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Anwesenheitsliste;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Course;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.Grade;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.GradedStudent;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Lektor;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Lesson;
@@ -326,10 +327,30 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 	public Zeugnis ladeZeugnis(long studenId, String semesterToken) {
 		String LADE_ZEUGNIS = "SELECT * FROM uv_create_certificate WHERE student_id = ? AND semester_token = ?;";
 		Zeugnis z = new Zeugnis();
-
+		List<Grade> grades = new ArrayList<Grade>();
 		try {
 			PreparedStatement ladeZeugnis = con.prepareStatement(LADE_ZEUGNIS);
+
 			ladeZeugnis.setLong(1, studenId);
+			ladeZeugnis.setString(2, semesterToken);
+
+			ResultSet rs = ladeZeugnis.executeQuery();
+
+			while (rs.next()) {
+				z.setFirstname(rs.getString("firstname"));
+				z.setLastname(rs.getString("lastname"));
+				z.setStudiengang(rs.getString("course_of_studies"));
+
+				Grade g = new Grade();
+				g.setLehrveranstaltung(rs.getString("course_name"));
+				g.setGrade(rs.getInt("grade"));
+				g.setEcts(rs.getDouble("ects"));
+
+				grades.add(g);
+			}
+
+			z.setGrades(grades);
+			return z;
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -337,14 +358,39 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			System.out.println("Couldnt create certificate!");
 			return null;
 		}
-		return null;
 	}
 
 	@Override
 	public List<NamedLesson> ladeStundenplan(long studentId, String dayStart,
 			String dayEnd) {
-		// TODO Auto-generated method stub
-		return null;
+		String LADE_STUNDENPLAN = "SELECT * FROM uv_create_schedule WHERE (start_time"
+				+ " >= TO_TIMESTAMP(?, 'YYYY-MM-DD') AND end_time"
+				+ " <= TO_TIMESTAMP(?, 'YYYY-MM-DD')) AND (student_id = ?);";
+		List<NamedLesson> nl = new ArrayList<NamedLesson>();
+
+		try {
+			PreparedStatement getStundenplan = con
+					.prepareStatement(LADE_STUNDENPLAN);
+			getStundenplan.setString(1, dayStart);
+			getStundenplan.setString(2, dayEnd);
+			getStundenplan.setLong(3, studentId);
+
+			ResultSet rs = getStundenplan.executeQuery();
+
+			while (rs.next()) {
+				NamedLesson nal = new NamedLesson(rs.getString("course_name"),
+						rs.getString("room"), rs.getDate("start_time")
+								.toString(), rs.getDate("end_time").toString());
+				nl.add(nal);
+			}
+
+			return nl;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Could not load timetable");
+			return null;
+		}
 	}
 
 	@Override
@@ -383,8 +429,35 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public List<NamedCourse> ladeFreifacher(long semesterId) {
-		// TODO Auto-generated method stub
-		return null;
+		String LADE_FREIFAECHER = "SELECT * FROM uv_optional_course WHERE semester_id = ?;";
+		List<NamedCourse> f = new ArrayList<NamedCourse>();
+
+		PreparedStatement ladeFreifaecher;
+		try {
+			ladeFreifaecher = con.prepareStatement(LADE_FREIFAECHER);
+			ladeFreifaecher.setLong(1, semesterId);
+
+			ResultSet rs = ladeFreifaecher.executeQuery();
+
+			while (rs.next()) {
+				NamedCourse nc = new NamedCourse(rs.getLong("course_id"),
+						rs.getString("course_name"));
+				nc.setCourseOfStudiesId(rs.getLong("course_of_studies_id"));
+				nc.setCourseTemplateId(rs.getLong("course_template_id"));
+				nc.setSemesterId(rs.getLong("semester_id"));
+				nc.setLektorId(rs.getLong("lecturer_id"));
+
+				f.add(nc);
+			}
+
+			return f;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Could not load optional courses");
+			return null;
+		}
+
 	}
 
 	@Override
@@ -453,14 +526,62 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public List<String> ladeGehaltsklassen() {
-		// TODO Auto-generated method stub
-		return null;
+		String LADE_GEHALTSKLASSEN = "SELECT name FROM tb_salary_class";
+		List<String> g = new ArrayList<String>();
+
+		try {
+			PreparedStatement getGehaltsklassen = con
+					.prepareStatement(LADE_GEHALTSKLASSEN);
+
+			ResultSet rs = getGehaltsklassen.executeQuery();
+
+			while (rs.next()) {
+				g.add(rs.getString("name"));
+			}
+
+			return g;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Could not load salary classes");
+			return null;
+		}
+
 	}
 
 	@Override
 	public List<Lektor> ladeAlleLektoren() {
-		// TODO Auto-generated method stub
-		return null;
+		String LADE_LEKTOREN = "SELECT * FROM uv_get_lecturers;";
+		List<Lektor> l = new ArrayList<Lektor>();
+
+		try {
+			PreparedStatement getLektoren = con.prepareStatement(LADE_LEKTOREN);
+
+			ResultSet rs = getLektoren.executeQuery();
+
+			while (rs.next()) {
+				Lektor le = new Lektor();
+				le.setId(rs.getLong("lecturer_id"));
+				le.setFirstname(rs.getString("firstname"));
+				le.setLastname(rs.getString("lastname"));
+				le.setAdress(rs.getString("adress"));
+				le.setZip(rs.getString("zip"));
+				le.setTelefon(rs.getString("telefon"));
+				le.setEmail(rs.getString("email"));
+				le.setToken(rs.getString("token"));
+				le.setGehaltsklasse(rs.getString("salary_class_name"));
+
+				l.add(le);
+			}
+
+			return l;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Could not load lecteures!");
+			return null;
+		}
+
 	}
 
 	@Override
@@ -531,8 +652,33 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public List<GradedStudent> ladeStudenten(long courseId) {
-		// TODO Auto-generated method stub
-		return null;
+		String LADE_GRADES_OF_STUDENTS = "SELECT * FROM uv_get_grades WHERE course_id = ?;";
+		List<GradedStudent> gs = new ArrayList<GradedStudent>();
+
+		try {
+			PreparedStatement getGradedStudents = con
+					.prepareStatement(LADE_GRADES_OF_STUDENTS);
+			getGradedStudents.setLong(1, courseId);
+
+			ResultSet rs = getGradedStudents.executeQuery();
+
+			while (rs.next()) {
+				GradedStudent gst = new GradedStudent();
+				gst.setId(rs.getLong("student_id"));
+				gst.setFirstname(rs.getString("firstname"));
+				gst.setLastname(rs.getString("lastname"));
+				gst.setGrade(rs.getInt("grade"));
+
+				gs.add(gst);
+			}
+
+			return gs;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Could not load graded students!");
+			return null;
+		}
 	}
 
 	@Override
