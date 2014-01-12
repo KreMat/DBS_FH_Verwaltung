@@ -50,12 +50,12 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 		}
 	}
 
-	@Override
-	public void finalize() {
-		if (con != null) {
-			closeConnection();
-		}
-	}
+	// @Override
+	// public void finalize() {
+	// if (con != null) {
+	// closeConnection();
+	// }
+	// }
 
 	@Override
 	public boolean addLektor(Lektor l) {
@@ -186,8 +186,9 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			CallableStatement cs = con.prepareCall(CREATE_SEMESTER);
 
 			cs.setString(1, s.getToken());
-			cs.setString(2, s.getStart_day());
-			cs.setString(3, s.getEnd_day());
+			// TODO Thomas FIXME
+			// cs.setString(2, s.getStart_day());
+			// cs.setString(3, s.getEnd_day());
 
 			cs.registerOutParameter(4, java.sql.Types.INTEGER);
 
@@ -243,7 +244,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 			cs.setLong(1, l.getCourse_id());
 			cs.setLong(2, l.getRoom_id());
-			
+
 			SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS");
 			cs.setString(3, SDF.format(l.getStartTime()));
 			cs.setString(4, SDF.format(l.getEndTime()));
@@ -346,7 +347,9 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			ResultSet rs = getStundenplan.executeQuery();
 
 			while (rs.next()) {
-				NamedLesson nal = new NamedLesson(rs.getString("course_name"), rs.getString("room"), rs.getDate("start_time"), rs.getDate("end_time"));
+				NamedLesson nal = new NamedLesson(rs.getString("course_name"),
+						rs.getString("room"), rs.getDate("start_time"),
+						rs.getDate("end_time"));
 				nl.add(nal);
 			}
 
@@ -560,8 +563,9 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 				Semester se = new Semester();
 				se.setId(rs.getLong("id"));
 				se.setToken(rs.getString("token"));
-				se.setStart_day(rs.getString("start_day"));
-				se.setEnd_day(rs.getString("end_day"));
+				// TODO Thomas FIXME
+				// se.setStart_day(rs.getString("start_day"));
+				// se.setEnd_day(rs.getString("end_day"));
 
 				s.add(se);
 			}
