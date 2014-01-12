@@ -699,10 +699,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public List<Student> ladeAlleStudenten() {
-		String LADE_STUDENTEN = "SELECT s.id, p.firstname, p.lastname, t.name,"
-				+ " s.studentnr, s.token, p.adress, p.zip, p.telefon, p.email FROM tb_student s "
-				+ "INNER JOIN tb_person p ON s.tb_person_id = p.id"
-				+ " INNER JOIN tb_course_of_studies t ON s.tb_course_of_studies_id = t.id";
+		String LADE_STUDENTEN = "SELECT * FROM uv_get_students";
 		List<Student> s = new ArrayList<Student>();
 
 		PreparedStatement ladeStudenten;
@@ -718,9 +715,9 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 				st.setZip(rs.getString("zip"));
 				st.setTelefon(rs.getString("telefon"));
 				st.setEmail(rs.getString("email"));
-				st.setStudiengangName(rs.getString("name"));
-				st.setStudentnr(rs.getLong("studentnr"));
-				st.setToken(rs.getString("token"));
+				st.setStudiengangName(rs.getString("course_of_studies_name"));
+				st.setStudentnr(rs.getLong("student_nr"));
+				st.setToken(rs.getString("student_token"));
 
 				s.add(st);
 			}
