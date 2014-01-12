@@ -6,8 +6,13 @@ import java.util.List;
 import at.technikum.wien.bif12.dbs.verwaltung.dao.DatabaseHandler;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Anwesenheitsliste;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Course;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.Grade;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.GradedStudent;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Lektor;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Lesson;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.NamedCourse;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.NamedLesson;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.Room;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Semester;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Student;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Studiengang;
@@ -66,27 +71,51 @@ public class DatabaseHandlerMock implements DatabaseHandler {
 
 	@Override
 	public Zeugnis ladeZeugnis(long studenId, String semesterToken) {
-		// TODO Auto-generated method stub
-		return null;
+		Zeugnis z = new Zeugnis();
+		z.setFirstname("Matthias");
+		z.setLastname("Kreuzriegler");
+		z.setStudiengang("Bachelor Informatik");
+		Grade g1 = new Grade();
+		g1.setLehrveranstaltung("Datenbanken");
+		g1.setEcts(3.5d);
+		g1.setGrade(1);
+		z.getGrades().add(g1);
+		return z;
 	}
 
 	@Override
-	public List<Lesson> ladeStundenplan(long studentId, String dayStart,
+	public List<NamedLesson> ladeStundenplan(long studentId, String dayStart,
 			String dayEnd) {
-		// TODO Auto-generated method stub
-		return null;
+		List<NamedLesson> list = new ArrayList<NamedLesson>();
+		list.add(new NamedLesson("Datenabanken", "A_1.04b", "1.1.2014 13:20",
+				"1.1.2014 15:50"));
+		list.add(new NamedLesson("Datenabanken", "A_1.04b", "1.1.2014 13:20",
+				"1.1.2014 15:50"));
+		list.add(new NamedLesson("Datenabanken", "A_1.04b", "1.1.2014 13:20",
+				"1.1.2014 15:50"));
+		return list;
 	}
 
 	@Override
 	public Anwesenheitsliste ladeAnwesenheitsliste(long courseId) {
-		// TODO Auto-generated method stub
-		return null;
+		Anwesenheitsliste a = new Anwesenheitsliste();
+		a.setLehrveranstaltung("Datenbanksysteme");
+		List<String> list = new ArrayList<String>();
+		list.add("Thomas Koller");
+		list.add("Richard Winterhalder");
+		list.add("Matthias Kreuzriegler");
+		a.setNames(list);
+		return a;
 	}
 
 	@Override
-	public List<Course> ladeFreifacher(long semesterId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<NamedCourse> ladeFreifacher(long semesterId) {
+		List<NamedCourse> list = new ArrayList<NamedCourse>();
+		list.add(new NamedCourse(1, "LV1"));
+		list.add(new NamedCourse(2, "LV2"));
+		list.add(new NamedCourse(3, "LV3"));
+		list.add(new NamedCourse(4, "LV4"));
+		return list;
 	}
 
 	@Override
@@ -129,12 +158,54 @@ public class DatabaseHandlerMock implements DatabaseHandler {
 	@Override
 	public List<Semester> ladeAlleSemester() {
 		List<Semester> list = new ArrayList<Semester>();
+		list.add(new Semester("WS 2012/2013", null, null));
+		list.add(new Semester("SS 2013", null, null));
+		list.add(new Semester("WS 2013/2014", null, null));
 		return list;
 	}
 
 	@Override
 	public List<Template> ladeAlleTemplate() {
 		List<Template> list = new ArrayList<Template>();
+		return list;
+	}
+
+	@Override
+	public List<GradedStudent> ladeStudenten(long courseId) {
+		List<GradedStudent> list = new ArrayList<GradedStudent>();
+		list.add(new GradedStudent("Thomas" + courseId, "Koller", 1));
+		list.add(new GradedStudent("Richard" + courseId, "Winterhalder", 1));
+		list.add(new GradedStudent("Matthias" + courseId, "Kreuzriegler", 1));
+		return list;
+	}
+
+	@Override
+	public List<NamedCourse> ladeAlleLvs() {
+		List<NamedCourse> list = new ArrayList<NamedCourse>();
+		list.add(new NamedCourse(1, "LV1"));
+		list.add(new NamedCourse(2, "LV2"));
+		list.add(new NamedCourse(3, "LV3"));
+		list.add(new NamedCourse(4, "LV4"));
+		return list;
+	}
+
+	@Override
+	public List<Room> ladeAlleRaeume() {
+		List<Room> list = new ArrayList<Room>();
+		list.add(new Room("Room1"));
+		list.add(new Room("Room2"));
+		list.add(new Room("Room3"));
+		list.add(new Room("Room4"));
+		list.add(new Room("Room5"));
+		return list;
+	}
+
+	@Override
+	public List<Student> ladeAlleStudenten() {
+		List<Student> list = new ArrayList<Student>();
+		list.add(new Student("Thomas", "Koller", 1));
+		list.add(new Student("Richard", "Winterhalder", 2));
+		list.add(new Student("Matthias", "Kreuzriegler", 3));
 		return list;
 	}
 

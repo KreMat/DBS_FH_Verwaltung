@@ -1,6 +1,6 @@
 package at.technikum.wien.bif12.dbs.verwaltung.entities;
 
-public class Student {
+public class Student extends AbstractDatabaseObject {
 
 	private String firstname;
 	private String lastname;
@@ -12,6 +12,17 @@ public class Student {
 	private long studentnr;
 
 	private String token;
+
+	public Student(String firstname, String lastname, int id) {
+		super();
+		setId(id);
+		this.firstname = firstname;
+		this.lastname = lastname;
+	}
+
+	public Student() {
+		super();
+	}
 
 	public String getFirstname() {
 		return firstname;
@@ -83,6 +94,11 @@ public class Student {
 
 	public void setStudiengangId(long studiengangId) {
 		this.studiengangId = studiengangId;
+	}
+
+	@Override
+	public String toString() {
+		return firstname + " " + lastname;
 	}
 
 }
