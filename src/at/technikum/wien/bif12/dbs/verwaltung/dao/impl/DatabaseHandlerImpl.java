@@ -72,7 +72,6 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			else
 				return false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed to create Lector!");
 			return false;
@@ -91,10 +90,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			cs.setString(4, s.getZip());
 			cs.setString(5, s.getTelefon());
 			cs.setString(6, s.getEmail());
-
-			// TODO THOMAS -> FIXME
-			cs.setLong(7, s.getStudiengangId());
-			// cs.setString(7, s.getCourse_of_studies_name());
+			cs.setString(7, s.getStudiengangName());
 			cs.setLong(8, s.getStudentnr());
 			cs.setString(9, s.getToken());
 
@@ -103,7 +99,6 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			cs.executeUpdate();
 
 			int erg = cs.getInt(10);
-
 			if (erg == 0)
 				return true;
 			else if (erg == -1)
@@ -114,7 +109,6 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 				return false;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed to create student!");
 			return false;
@@ -144,7 +138,6 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			else
 				return false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed to create course of studies!");
 			return false;
@@ -204,7 +197,6 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			else
 				return false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed to create semester!");
 			return false;
@@ -234,34 +226,9 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			else
 				return false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed to create course!");
 		}
-		// String ASSIGN_COURSE_TO_SEMESTER =
-		// "{call usp_assign_semester(?,?,?)}";
-		// try {
-		// CallableStatement cs = con.prepareCall(ASSIGN_COURSE_TO_SEMESTER);
-		//
-		// cs.setLong(1, c.getCourseOfStudiesId());
-		// cs.setLong(2, semesterId);
-		//
-		// cs.registerOutParameter(3, java.sql.Types.INTEGER);
-		//
-		// cs.executeUpdate();
-		//
-		// int erg = cs.getInt(3);
-		//
-		// if (erg == 0)
-		// return true;
-		// else
-		// return false;
-		// } catch (SQLException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// System.out.println("Failed to assign course to semester!");
-		// return false;
-		// }
 		return true;
 	}
 
@@ -287,7 +254,6 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			else
 				return false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed to create lesson!");
 			return false;
@@ -726,12 +692,9 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			ResultSet rs = ladeRaeume.executeQuery();
 
 			while (rs.next()) {
-				Room ro = new Room(rs.getString("name"));
-
+				Room ro = new Room(rs.getString("name") + " "
+						+ rs.getString("token"));
 				ro.setId(rs.getLong("id"));
-				ro.setBuildingId(rs.getLong("tb_building_id"));
-				ro.setToken(rs.getString("token"));
-				ro.setFloor(rs.getString("floor"));
 
 				r.add(ro);
 			}
@@ -748,9 +711,10 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public List<Student> ladeAlleStudenten() {
-		String LADE_STUDENTEN = "SELECT s.id, p.firstname, p.lastname, s.tb_course_of_studies_id,"
+		String LADE_STUDENTEN = "SELECT s.id, p.firstname, p.lastname, t.name,"
 				+ " s.studentnr, s.token, p.adress, p.zip, p.telefon, p.email FROM tb_student s "
-				+ "INNER JOIN tb_person p ON s.tb_person_id = p.id;";
+				+ "INNER JOIN tb_person p ON s.tb_person_id = p.id"
+				+ "INNER JOIN tb_course_of_studies t ON s.tb_course_of_studies_id = t.id;";
 		List<Student> s = new ArrayList<Student>();
 
 		PreparedStatement ladeStudenten;
@@ -766,7 +730,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 				st.setZip(rs.getString("zip"));
 				st.setTelefon(rs.getString("telefon"));
 				st.setEmail(rs.getString("email"));
-				st.setStudiengangId(rs.getLong("tb_course_of_studies_id"));
+				st.setStudiengangName(rs.getString("name"));
 				st.setStudentnr(rs.getLong("studentnr"));
 				st.setToken(rs.getString("token"));
 

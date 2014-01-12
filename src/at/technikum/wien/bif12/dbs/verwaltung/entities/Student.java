@@ -1,14 +1,14 @@
 package at.technikum.wien.bif12.dbs.verwaltung.entities;
 
 public class Student extends AbstractDatabaseObject {
-
+	// TODO MK Studiengangid ersetzt durch studiengangName
 	private String firstname;
 	private String lastname;
 	private String adress;
 	private String zip;
 	private String telefon;
 	private String email;
-	private long studiengangId;
+	private String studiengangName;
 	private long studentnr;
 
 	private String token;
@@ -88,12 +88,12 @@ public class Student extends AbstractDatabaseObject {
 		this.token = token;
 	}
 
-	public long getStudiengangId() {
-		return studiengangId;
+	public String getStudiengangName() {
+		return studiengangName;
 	}
 
-	public void setStudiengangId(long studiengangId) {
-		this.studiengangId = studiengangId;
+	public void setStudiengangName(String studiengangName) {
+		this.studiengangName = studiengangName;
 	}
 
 	@Override
