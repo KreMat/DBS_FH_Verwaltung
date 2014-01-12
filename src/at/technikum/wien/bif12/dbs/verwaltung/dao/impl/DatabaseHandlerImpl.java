@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -172,7 +173,6 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			else
 				return false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed to create template!");
 			return false;
@@ -243,10 +243,10 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 			cs.setLong(1, l.getCourse_id());
 			cs.setLong(2, l.getRoom_id());
-
-			// TODO Thomas SimpleDateFormat verwenden
-			// cs.setString(3, l.getStart_time());
-			// cs.setString(4, l.getEnd_time());
+			
+			SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS");
+			cs.setString(3, SDF.format(l.getStartTime()));
+			cs.setString(4, SDF.format(l.getEndTime()));
 
 			cs.registerOutParameter(5, java.sql.Types.INTEGER);
 
@@ -332,8 +332,8 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 	public List<NamedLesson> ladeStundenplan(long studentId, String dayStart,
 			String dayEnd) {
 		String LADE_STUNDENPLAN = "SELECT * FROM uv_create_schedule WHERE (start_time"
-				+ " >= TO_TIMESTAMP(?, 'YYYY-MM-DD') AND end_time"
-				+ " <= TO_TIMESTAMP(?, 'YYYY-MM-DD')) AND (student_id = ?)";
+				+ " >= TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS') AND end_time"
+				+ " <= TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS')) AND (student_id = ?)";
 		List<NamedLesson> nl = new ArrayList<NamedLesson>();
 
 		try {
@@ -345,13 +345,10 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 			ResultSet rs = getStundenplan.executeQuery();
 
-			// TODO Thomas FIXME
-			// while (rs.next()) {
-			// NamedLesson nal = new NamedLesson(rs.getString("course_name"),
-			// rs.getString("room"), rs.getDate("start_time")
-			// .toString(), rs.getDate("end_time").toString());
-			// nl.add(nal);
-			// }
+			while (rs.next()) {
+				NamedLesson nal = new NamedLesson(rs.getString("course_name"), rs.getString("room"), rs.getDate("start_time"), rs.getDate("end_time"));
+				nl.add(nal);
+			}
 
 			return nl;
 		} catch (SQLException e) {
@@ -644,11 +641,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public List<NamedCourse> ladeAlleLvs() {
-		String LADE_LVS = "SELECT cs.id, ct.name, cs.tb_course_of_studies_id,"
-				+ " cs.tb_course_template_id, cs.tb_semester_id, l.tb_lecturer_id"
-				+ " FROM tb_course cs INNER JOIN tb_course_template ct "
-				+ "ON cs.tb_course_template_id = ct.id"
-				+ " INNER JOIN tb_lecturer_has_course l ON cs.id=l.tb_course_id";
+		String LADE_LVS = "SELECT * FROM uv_get_courses";
 		List<NamedCourse> lvs = new ArrayList<NamedCourse>();
 
 		PreparedStatement ladeLvs;
@@ -657,13 +650,13 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			ResultSet rs = ladeLvs.executeQuery();
 
 			while (rs.next()) {
-				NamedCourse lv = new NamedCourse(rs.getLong("id"),
-						rs.getString("name"));
+				NamedCourse lv = new NamedCourse(rs.getLong("course_id"),
+						rs.getString("course_name"));
 
-				lv.setCourseOfStudiesId(rs.getLong("tb_course_of_studies_id"));
-				lv.setCourseTemplateId(rs.getLong("tb_course_template_id"));
-				lv.setSemesterId(rs.getLong("tb_semester_id"));
-				lv.setLektorId(rs.getLong("tb_lecturer_id"));
+				lv.setCourseOfStudiesId(rs.getLong("course_of_studies_id"));
+				lv.setCourseTemplateId(rs.getLong("template_id"));
+				lv.setSemesterId(rs.getLong("semester_id"));
+				lv.setLektorId(rs.getLong("lecturer_id"));
 
 				lvs.add(lv);
 			}
@@ -742,8 +735,34 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public List<NamedCourse> ladeLvs(long semesterId) {
-		// TODO Auto-generated method stub
-		return null;
+		String LADE_LVS = "SELECT * FROM uv_get_courses WHERE semester_id = ?";
+		List<NamedCourse> lvs = new ArrayList<NamedCourse>();
+
+		PreparedStatement ladeLvs;
+		try {
+			ladeLvs = con.prepareStatement(LADE_LVS);
+			ladeLvs.setLong(1, semesterId);
+			ResultSet rs = ladeLvs.executeQuery();
+
+			while (rs.next()) {
+				NamedCourse lv = new NamedCourse(rs.getLong("course_id"),
+						rs.getString("course_name"));
+
+				lv.setCourseOfStudiesId(rs.getLong("course_of_studies_id"));
+				lv.setCourseTemplateId(rs.getLong("template_id"));
+				lv.setSemesterId(rs.getLong("semester_id"));
+				lv.setLektorId(rs.getLong("lecturer_id"));
+
+				lvs.add(lv);
+			}
+
+			return lvs;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Failed to load lvs!");
+			return lvs;
+		}
+
 	}
 
 }
