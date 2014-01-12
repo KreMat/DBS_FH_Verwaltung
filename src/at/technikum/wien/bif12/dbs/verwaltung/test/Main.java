@@ -28,6 +28,7 @@ public class Main {
 		// dhm.addStudent(new
 		// Student("penis","klaus","abs","1200","123412341","penx@asdfa.com","Informatik",1210234089,"heinz"));
 
+
 	}
 
 }
