@@ -4,7 +4,7 @@ public class NamedCourse extends Course {
 
 	private String name;
 
-	public NamedCourse(int id, String name) {
+	public NamedCourse(long id, String name) {
 		super();
 		this.name = name;
 		setId(id);

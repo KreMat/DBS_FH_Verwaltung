@@ -469,7 +469,8 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 		List<Semester> s = new ArrayList<Semester>();
 
 		try {
-			PreparedStatement ladeSemester = con.prepareStatement(LADE_SEMESTER);
+			PreparedStatement ladeSemester = con
+					.prepareStatement(LADE_SEMESTER);
 
 			ResultSet rs = ladeSemester.executeQuery();
 
@@ -497,15 +498,15 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 	public List<Template> ladeAlleTemplate() {
 		String LADE_TEMPLATES = "SELECT * FROM tb_course_template;";
 		List<Template> t = new ArrayList<Template>();
-		
+
 		PreparedStatement ladeTemplates;
 		try {
 			ladeTemplates = con.prepareStatement(LADE_TEMPLATES);
 			ResultSet rs = ladeTemplates.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				Template te = new Template();
-				
+
 				te.setId(rs.getLong("id"));
 				te.setCourseOfStudiesId(rs.getLong("tb_course_of_studies_id"));
 				te.setSemester(rs.getLong("semester"));
@@ -514,10 +515,10 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 				te.setParticipants(rs.getLong("participants"));
 				te.setEcts(rs.getDouble("ects"));
 				te.setSws(rs.getDouble("sPPW"));
-				
+
 				t.add(te);
 			}
-			
+
 			return t;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -536,20 +537,104 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public List<NamedCourse> ladeAlleLvs() {
-		// TODO Auto-generated method stub
-		return null;
+		String LADE_LVS = "SELECT cs.id, ct.name, cs.tb_course_of_studies_id,"
+				+ " cs.tb_course_template_id, cs.tb_semester_id, cs.tb_lektor_id"
+				+ " FROM tb_course cs INNER JOIN tb_course_template ct "
+				+ "ON cs.tb_course_template_id = ct.id;";
+		List<NamedCourse> lvs = new ArrayList<NamedCourse>();
+
+		PreparedStatement ladeLvs;
+		try {
+			ladeLvs = con.prepareStatement(LADE_LVS);
+			ResultSet rs = ladeLvs.executeQuery();
+
+			while (rs.next()) {
+				NamedCourse lv = new NamedCourse(rs.getLong("id"),
+						rs.getString("name"));
+
+				lv.setCourseOfStudiesId(rs.getLong("tb_course_of_studies_id"));
+				lv.setCourseTemplateId(rs.getLong("tb_course_template_id"));
+				lv.setSemesterId(rs.getLong("tb_semester_id"));
+				lv.setLektorId(rs.getLong("tb_lektor_id"));
+
+				lvs.add(lv);
+			}
+
+			return lvs;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Failed to load lvs!");
+			return null;
+		}
+
 	}
 
 	@Override
 	public List<Room> ladeAlleRaeume() {
-		// TODO Auto-generated method stub
-		return null;
+		String LADE_RAEUME = "SELECT * FROM tb_room;";
+		List<Room> r = new ArrayList<Room>();
+
+		PreparedStatement ladeRaeume;
+		try {
+			ladeRaeume = con.prepareStatement(LADE_RAEUME);
+			ResultSet rs = ladeRaeume.executeQuery();
+
+			while (rs.next()) {
+				Room ro = new Room(rs.getString("name"));
+
+				ro.setId(rs.getLong("id"));
+				ro.setBuildingId(rs.getLong("tb_building_id"));
+				ro.setToken(rs.getString("token"));
+				ro.setFloor(rs.getString("floor"));
+
+				r.add(ro);
+			}
+
+			return r;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Failed to load rooms!");
+			return null;
+		}
+
 	}
 
 	@Override
 	public List<Student> ladeAlleStudenten() {
-		// TODO Auto-generated method stub
-		return null;
+		String LADE_STUDENTEN = "SELECT s.id, p.firstname, p.lastname, s.tb_course_of_studies_id,"
+				+ " s.studentnr, s.token, p.adress, p.zip, p.telefon, p.email FROM tb_student s "
+				+ "INNER JOIN tb_person p ON s.tb_person_id = p.id;";
+		List<Student> s = new ArrayList<Student>();
+
+		PreparedStatement ladeStudenten;
+		try {
+			ladeStudenten = con.prepareStatement(LADE_STUDENTEN);
+			ResultSet rs = ladeStudenten.executeQuery();
+
+			while (rs.next()) {
+				Student st = new Student(rs.getString("firstname"),
+						rs.getString("lastname"), rs.getLong("id"));
+
+				st.setAdress(rs.getString("adress"));
+				st.setZip(rs.getString("zip"));
+				st.setTelefon(rs.getString("telefon"));
+				st.setEmail(rs.getString("email"));
+				st.setStudiengangId(rs.getLong("tb_course_of_studies_id"));
+				st.setStudentnr(rs.getLong("studentnr"));
+				st.setToken(rs.getString("token"));
+
+				s.add(st);
+			}
+
+			return s;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Failed to load students!");
+			return null;
+		}
 	}
 
 }

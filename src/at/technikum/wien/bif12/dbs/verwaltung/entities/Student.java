@@ -13,7 +13,7 @@ public class Student extends AbstractDatabaseObject {
 
 	private String token;
 
-	public Student(String firstname, String lastname, int id) {
+	public Student(String firstname, String lastname, long id) {
 		super();
 		setId(id);
 		this.firstname = firstname;
