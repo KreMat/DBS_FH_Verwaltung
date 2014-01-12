@@ -281,7 +281,6 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			else
 				return false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed to register grade!");
 			return false;
@@ -290,7 +289,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public Zeugnis ladeZeugnis(long studenId, String semesterToken) {
-		String LADE_ZEUGNIS = "SELECT * FROM uv_create_certificate WHERE student_id = ? AND semester_token = ?;";
+		String LADE_ZEUGNIS = "SELECT * FROM uv_create_certificate WHERE student_id = ? AND semester_token = ?";
 		Zeugnis z = new Zeugnis();
 		List<Grade> grades = new ArrayList<Grade>();
 		try {
@@ -318,7 +317,6 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			return z;
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Couldnt create certificate!");
 			return null;
@@ -330,7 +328,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			String dayEnd) {
 		String LADE_STUNDENPLAN = "SELECT * FROM uv_create_schedule WHERE (start_time"
 				+ " >= TO_TIMESTAMP(?, 'YYYY-MM-DD') AND end_time"
-				+ " <= TO_TIMESTAMP(?, 'YYYY-MM-DD')) AND (student_id = ?);";
+				+ " <= TO_TIMESTAMP(?, 'YYYY-MM-DD')) AND (student_id = ?)";
 		List<NamedLesson> nl = new ArrayList<NamedLesson>();
 
 		try {
@@ -351,22 +349,23 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 			return nl;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Could not load timetable");
-			return null;
+			return nl;
 		}
 	}
 
 	@Override
 	public Anwesenheitsliste ladeAnwesenheitsliste(long courseId) {
-		String LOAD_REGISTERLIST = "SELECT * FROM uv_create_register_list WHERE course_id = ?;";
-		String GET_COURSE_NAME = "SELECT id, name FROM tb_course_template WHERE id = ?;";
+		String LOAD_REGISTERLIST = "SELECT * FROM uv_create_register_list WHERE course_id = ?";
+		String GET_COURSE_NAME = "SELECT id, name FROM tb_course_template WHERE id = ?";
 		Anwesenheitsliste awhl = new Anwesenheitsliste();
+		awhl.setNames(new ArrayList<String>());
 		try {
 			PreparedStatement getName = con.prepareStatement(GET_COURSE_NAME);
 			getName.setLong(1, courseId);
 			ResultSet name = getName.executeQuery();
+			name.next();
 			awhl.setLehrveranstaltung(name.getString("name"));
 
 			PreparedStatement ps = con.prepareStatement(LOAD_REGISTERLIST);
@@ -384,7 +383,6 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			return awhl;
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Couldnt make a registerlist");
 			return null;
@@ -394,7 +392,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public List<NamedCourse> ladeFreifacher(long semesterId) {
-		String LADE_FREIFAECHER = "SELECT * FROM uv_optional_course WHERE semester_id = ?;";
+		String LADE_FREIFAECHER = "SELECT * FROM uv_optional_course WHERE semester_id = ?";
 		List<NamedCourse> f = new ArrayList<NamedCourse>();
 
 		PreparedStatement ladeFreifaecher;
@@ -417,10 +415,9 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 			return f;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Could not load optional courses");
-			return null;
+			return f;
 		}
 
 	}
@@ -450,7 +447,6 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 				return false;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed to assign student!");
 			return false;
@@ -459,7 +455,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 	@Override
 	public List<Studiengang> ladeStudiengaenge() {
-		String LADE_STUDIENGAENGE = "SELECT * FROM tb_course_of_studies;";
+		String LADE_STUDIENGAENGE = "SELECT * FROM tb_course_of_studies";
 		List<Studiengang> s = new ArrayList<Studiengang>();
 		try {
 			PreparedStatement ladeStudiengaenge = con
@@ -482,10 +478,9 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			return s;
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed to load studiengaenge!");
-			return null;
+			return s;
 		}
 	}
 
@@ -506,17 +501,16 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 			return g;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Could not load salary classes");
-			return null;
+			return g;
 		}
 
 	}
 
 	@Override
 	public List<Lektor> ladeAlleLektoren() {
-		String LADE_LEKTOREN = "SELECT * FROM uv_get_lecturers;";
+		String LADE_LEKTOREN = "SELECT * FROM uv_get_lecturers";
 		List<Lektor> l = new ArrayList<Lektor>();
 
 		try {
@@ -533,7 +527,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 				le.setZip(rs.getString("zip"));
 				le.setTelefon(rs.getString("telefon"));
 				le.setEmail(rs.getString("email"));
-				le.setToken(rs.getString("token"));
+				le.setToken(rs.getString("lecturer_token"));
 				le.setGehaltsklasse(rs.getString("salary_class_name"));
 
 				l.add(le);
@@ -541,17 +535,16 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 			return l;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Could not load lecteures!");
-			return null;
+			return l;
 		}
 
 	}
 
 	@Override
 	public List<Semester> ladeAlleSemester() {
-		String LADE_SEMESTER = "SELECT * FROM tb_semester;";
+		String LADE_SEMESTER = "SELECT * FROM tb_semester";
 		List<Semester> s = new ArrayList<Semester>();
 
 		try {
@@ -572,17 +565,16 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 			return s;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed to load semesters!");
-			return null;
+			return s;
 		}
 
 	}
 
 	@Override
 	public List<Template> ladeAlleTemplate() {
-		String LADE_TEMPLATES = "SELECT * FROM tb_course_template;";
+		String LADE_TEMPLATES = "SELECT * FROM tb_course_template";
 		List<Template> t = new ArrayList<Template>();
 
 		PreparedStatement ladeTemplates;
@@ -607,17 +599,16 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 			return t;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed to load templates!");
-			return null;
+			return t;
 		}
 
 	}
 
 	@Override
 	public List<GradedStudent> ladeStudenten(long courseId) {
-		String LADE_GRADES_OF_STUDENTS = "SELECT * FROM uv_get_grades WHERE course_id = ?;";
+		String LADE_GRADES_OF_STUDENTS = "SELECT * FROM uv_get_grades WHERE course_id = ?";
 		List<GradedStudent> gs = new ArrayList<GradedStudent>();
 
 		try {
@@ -639,19 +630,19 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 			return gs;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Could not load graded students!");
-			return null;
+			return gs;
 		}
 	}
 
 	@Override
 	public List<NamedCourse> ladeAlleLvs() {
 		String LADE_LVS = "SELECT cs.id, ct.name, cs.tb_course_of_studies_id,"
-				+ " cs.tb_course_template_id, cs.tb_semester_id, cs.tb_lektor_id"
+				+ " cs.tb_course_template_id, cs.tb_semester_id, l.tb_lecturer_id"
 				+ " FROM tb_course cs INNER JOIN tb_course_template ct "
-				+ "ON cs.tb_course_template_id = ct.id;";
+				+ "ON cs.tb_course_template_id = ct.id"
+				+ " INNER JOIN tb_lecturer_has_course l ON cs.id=l.tb_course_id";
 		List<NamedCourse> lvs = new ArrayList<NamedCourse>();
 
 		PreparedStatement ladeLvs;
@@ -666,24 +657,23 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 				lv.setCourseOfStudiesId(rs.getLong("tb_course_of_studies_id"));
 				lv.setCourseTemplateId(rs.getLong("tb_course_template_id"));
 				lv.setSemesterId(rs.getLong("tb_semester_id"));
-				lv.setLektorId(rs.getLong("tb_lektor_id"));
+				lv.setLektorId(rs.getLong("tb_lecturer_id"));
 
 				lvs.add(lv);
 			}
 
 			return lvs;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed to load lvs!");
-			return null;
+			return lvs;
 		}
 
 	}
 
 	@Override
 	public List<Room> ladeAlleRaeume() {
-		String LADE_RAEUME = "SELECT * FROM tb_room;";
+		String LADE_RAEUME = "SELECT * FROM tb_room";
 		List<Room> r = new ArrayList<Room>();
 
 		PreparedStatement ladeRaeume;
@@ -701,10 +691,9 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 			return r;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed to load rooms!");
-			return null;
+			return r;
 		}
 
 	}
@@ -714,7 +703,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 		String LADE_STUDENTEN = "SELECT s.id, p.firstname, p.lastname, t.name,"
 				+ " s.studentnr, s.token, p.adress, p.zip, p.telefon, p.email FROM tb_student s "
 				+ "INNER JOIN tb_person p ON s.tb_person_id = p.id"
-				+ "INNER JOIN tb_course_of_studies t ON s.tb_course_of_studies_id = t.id;";
+				+ " INNER JOIN tb_course_of_studies t ON s.tb_course_of_studies_id = t.id";
 		List<Student> s = new ArrayList<Student>();
 
 		PreparedStatement ladeStudenten;
@@ -739,10 +728,9 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 			return s;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed to load students!");
-			return null;
+			return s;
 		}
 	}
 

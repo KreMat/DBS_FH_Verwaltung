@@ -1,14 +1,22 @@
 package at.technikum.wien.bif12.dbs.verwaltung.test;
 
+import java.util.List;
+
 import at.technikum.wien.bif12.dbs.verwaltung.dao.impl.DatabaseHandlerImpl;
 import at.technikum.wien.bif12.dbs.verwaltung.dao.mock.DatabaseHandlerMock;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.Anwesenheitsliste;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Course;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.GradedStudent;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Lektor;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Lesson;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.NamedCourse;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.NamedLesson;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.Room;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Semester;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Student;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Studiengang;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Template;
+import at.technikum.wien.bif12.dbs.verwaltung.entities.Zeugnis;
 
 public class Main {
 
@@ -96,7 +104,82 @@ public class Main {
 		if(dhm.addLesson(l)) {
 			System.out.println("erfolgreich");
 		}
-	*/
+	
+		
+		if(dhm.registerGrade(3, 1, 1)) {
+			System.out.println("erfolgreich");
+		}
+		
+		
+		Zeugnis z = dhm.ladeZeugnis(3, "WS2013");
+		System.out.println(z.getFirstname() + " " + z.getLastname() + " " + z.getStudiengang()+ " " + z.getGrades().get(0).getEcts() + " " + z.getGrades().get(0).getLehrveranstaltung() + " " + z.getGrades().get(0).getGrade());
+		
+		
+		List<NamedLesson> l = dhm.ladeStundenplan(1, "2012-10-1", "2014-10-1");
+		System.out.println(l.toString());
+		
+		
+		Anwesenheitsliste a = dhm.ladeAnwesenheitsliste(1);
+		String erg = "";
+	    for(int i=0;i<a.getNames().size();i++) {
+	    	erg += a.getNames().get(i) + "\n";
+	    }
+	    System.out.println(a.getLehrveranstaltung() + " " + erg);
+	    
+	    
+		*/
+		List<NamedCourse> l = dhm.ladeFreifacher(1);
+		System.out.println(l.toString());
+		
+		/*
+		if(dhm.assignStudentToCourse(1, 9)) {
+			System.out.println("Erfolgreich");
+		}
+		
+		List<Studiengang> l = dhm.ladeStudiengaenge();
+		System.out.println(l.toString());
+		
+		
+		List<String> l = dhm.ladeGehaltsklassen();
+		System.out.println(l.toString());
+		
+		List<Lektor> l = dhm.ladeAlleLektoren();
+		System.out.println(l.toString());
+		
+		
+		List<Semester> l = dhm.ladeAlleSemester();
+		System.out.println(l.toString());
+		
+		List<Template> l = dhm.ladeAlleTemplate();
+		System.out.println(l.toString());
+		
+		List<GradedStudent> l = dhm.ladeStudenten(1);
+		
+		
+	    System.out.println(erg);
+	    
+		
+		List<NamedCourse> l = dhm.ladeAlleLvs();
+		String erg = "";
+	    for(int i=0;i<l.size();i++) {
+	    	erg += l.get(i).getName() + " " + l.get(i).getCourseOfStudiesId() + " " + l.get(i).getCourseTemplateId() + " " + l.get(i).getSemesterId() + " " + l.get(i).getLektorId()+ "\n";
+	    }
+		System.out.println(erg);
+		
+		
+		List<Room> l = dhm.ladeAlleRaeume();
+		String erg = "";
+	    for(int i=0;i<l.size();i++) {
+	    	erg += l.get(i).getId() + " " + l.get(i).getName() + "\n";
+	    }
+	    System.out.println(erg);
+	    
+		
+		List<Student> l = dhm.ladeAlleStudenten();
+		System.out.println(l.toString());
+		*/
+		
+		
 	}
 
 }
