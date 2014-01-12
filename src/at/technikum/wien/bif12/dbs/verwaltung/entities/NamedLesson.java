@@ -1,18 +1,20 @@
 package at.technikum.wien.bif12.dbs.verwaltung.entities;
 
+import java.sql.Date;
+
 public class NamedLesson extends Lesson {
 
 	private String courseName;
 
 	private String roomName;
 
-	public NamedLesson(String courseName, String roomName, String startTime,
-			String endTime) {
+	public NamedLesson(String courseName, String roomName, Date startTime,
+			Date endTime) {
 		super();
 		this.courseName = courseName;
 		this.roomName = roomName;
-		setStart_time(startTime);
-		setEnd_time(endTime);
+		setStartTime(startTime);
+		setEndTime(endTime);
 	}
 
 	public String getCourseName() {

@@ -24,6 +24,7 @@ import at.technikum.wien.bif12.dbs.verwaltung.entities.Student;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Studiengang;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Template;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Zeugnis;
+import at.technikum.wien.bif12.dbs.verwaltung.exceptions.GUIsqlException;
 
 public class DatabaseHandlerImpl implements DatabaseHandler {
 	private Connection con = null;
@@ -87,7 +88,7 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 	}
 
 	@Override
-	public boolean addStudent(Student s) {
+	public boolean addStudent(Student s) throws GUIsqlException {
 		String CREATE_STUDENT = "{call usp_create_student(?,?,?,?,?,?,?,?,?,?)}";
 		try {
 			CallableStatement cs = con.prepareCall(CREATE_STUDENT);
@@ -104,22 +105,16 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 			cs.registerOutParameter(10, java.sql.Types.INTEGER);
 
-			cs.executeUpdate();
+			cs.execute();
 
 			int erg = cs.getInt(10);
-			if (erg == 0)
+			if (erg == 0) {
 				return true;
-			else if (erg == -1)
-				return false;
-			else {
-				System.out
-						.println("Sorry there are to many students for that course!");
+			} else {
 				return false;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("Failed to create student!");
-			return false;
+			throw new GUIsqlException(e.getMessage(), e);
 		}
 	}
 
@@ -248,8 +243,10 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 			cs.setLong(1, l.getCourse_id());
 			cs.setLong(2, l.getRoom_id());
-			cs.setString(3, l.getStart_time());
-			cs.setString(4, l.getEnd_time());
+
+			// TODO Thomas SimpleDateFormat verwenden
+			// cs.setString(3, l.getStart_time());
+			// cs.setString(4, l.getEnd_time());
 
 			cs.registerOutParameter(5, java.sql.Types.INTEGER);
 
@@ -348,12 +345,13 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 
 			ResultSet rs = getStundenplan.executeQuery();
 
-			while (rs.next()) {
-				NamedLesson nal = new NamedLesson(rs.getString("course_name"),
-						rs.getString("room"), rs.getDate("start_time")
-								.toString(), rs.getDate("end_time").toString());
-				nl.add(nal);
-			}
+			// TODO Thomas FIXME
+			// while (rs.next()) {
+			// NamedLesson nal = new NamedLesson(rs.getString("course_name"),
+			// rs.getString("room"), rs.getDate("start_time")
+			// .toString(), rs.getDate("end_time").toString());
+			// nl.add(nal);
+			// }
 
 			return nl;
 		} catch (SQLException e) {
@@ -740,6 +738,12 @@ public class DatabaseHandlerImpl implements DatabaseHandler {
 			System.out.println("Failed to load students!");
 			return s;
 		}
+	}
+
+	@Override
+	public List<NamedCourse> ladeLvs(long semesterId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

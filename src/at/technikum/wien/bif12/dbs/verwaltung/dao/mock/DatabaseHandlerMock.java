@@ -1,5 +1,6 @@
 package at.technikum.wien.bif12.dbs.verwaltung.dao.mock;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,12 +88,12 @@ public class DatabaseHandlerMock implements DatabaseHandler {
 	public List<NamedLesson> ladeStundenplan(long studentId, String dayStart,
 			String dayEnd) {
 		List<NamedLesson> list = new ArrayList<NamedLesson>();
-		list.add(new NamedLesson("Datenabanken", "A_1.04b", "1.1.2014 13:20",
-				"1.1.2014 15:50"));
-		list.add(new NamedLesson("Datenabanken", "A_1.04b", "1.1.2014 13:20",
-				"1.1.2014 15:50"));
-		list.add(new NamedLesson("Datenabanken", "A_1.04b", "1.1.2014 13:20",
-				"1.1.2014 15:50"));
+		list.add(new NamedLesson("Datenabanken", "A_1.04b", new Date(System
+				.currentTimeMillis()), new Date(System.currentTimeMillis())));
+		list.add(new NamedLesson("Datenabanken", "A_1.04b", new Date(System
+				.currentTimeMillis()), new Date(System.currentTimeMillis())));
+		list.add(new NamedLesson("Datenabanken", "A_1.04b", new Date(System
+				.currentTimeMillis()), new Date(System.currentTimeMillis())));
 		return list;
 	}
 
@@ -206,6 +207,16 @@ public class DatabaseHandlerMock implements DatabaseHandler {
 		list.add(new Student("Thomas", "Koller", 1));
 		list.add(new Student("Richard", "Winterhalder", 2));
 		list.add(new Student("Matthias", "Kreuzriegler", 3));
+		return list;
+	}
+
+	@Override
+	public List<NamedCourse> ladeLvs(long semesterId) {
+		List<NamedCourse> list = new ArrayList<NamedCourse>();
+		list.add(new NamedCourse(1, "LV1"));
+		list.add(new NamedCourse(2, "LV2"));
+		list.add(new NamedCourse(3, "LV3"));
+		list.add(new NamedCourse(4, "LV4"));
 		return list;
 	}
 

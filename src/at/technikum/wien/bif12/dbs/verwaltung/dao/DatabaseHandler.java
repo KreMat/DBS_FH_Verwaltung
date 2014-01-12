@@ -15,12 +15,13 @@ import at.technikum.wien.bif12.dbs.verwaltung.entities.Student;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Studiengang;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Template;
 import at.technikum.wien.bif12.dbs.verwaltung.entities.Zeugnis;
+import at.technikum.wien.bif12.dbs.verwaltung.exceptions.GUIsqlException;
 
 public interface DatabaseHandler {
 
 	public boolean addLektor(Lektor l);
 
-	public boolean addStudent(Student s);
+	public boolean addStudent(Student s) throws GUIsqlException;
 
 	public boolean addStudiengang(Studiengang s);
 
@@ -62,5 +63,7 @@ public interface DatabaseHandler {
 	public List<Room> ladeAlleRaeume();
 
 	public List<Student> ladeAlleStudenten();
+
+	public List<NamedCourse> ladeLvs(long semesterId);
 
 }

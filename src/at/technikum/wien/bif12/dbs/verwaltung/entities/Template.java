@@ -66,4 +66,9 @@ public class Template extends AbstractDatabaseObject {
 		this.sws = sws;
 	}
 
+	@Override
+	public String toString() {
+		return name + " (" + token + ")";
+	}
+
 }

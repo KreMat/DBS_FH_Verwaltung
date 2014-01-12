@@ -1,11 +1,13 @@
 package at.technikum.wien.bif12.dbs.verwaltung.entities;
 
+import java.sql.Date;
+
 public class Lesson {
 
 	private long course_id;
 	private long room_id;
-	private String start_time;
-	private String end_time;
+	private Date startTime;
+	private Date endTime;
 
 	public long getCourse_id() {
 		return course_id;
@@ -23,20 +25,20 @@ public class Lesson {
 		this.room_id = room_id;
 	}
 
-	public String getStart_time() {
-		return start_time;
+	public Date getStartTime() {
+		return startTime;
 	}
 
-	public void setStart_time(String start_time) {
-		this.start_time = start_time;
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
 	}
 
-	public String getEnd_time() {
-		return end_time;
+	public Date getEndTime() {
+		return endTime;
 	}
 
-	public void setEnd_time(String end_time) {
-		this.end_time = end_time;
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 
 }
